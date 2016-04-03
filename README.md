@@ -16,8 +16,8 @@ Tags Docker:
 docker run --rm -p 80:80 --name tomcat --privileged=true qfdk/tomcat
 
 # Middletier
-docker run --rm --link tomcat:localhost --name middletier1  --hostname middletier1  qfdk/docker-rss:mid
-docker run --rm --link tomcat:localhost --name middletier2  --hostname middletier2  qfdk/docker-rss:mid
+docker run --rm -P -p 9191:9191 --link tomcat:localhost --name middletier1  --hostname middletier1  qfdk/docker-rss:mid
+docker run --rm -P -p 9191:9191 --link tomcat:localhost --name middletier2  --hostname middletier2  qfdk/docker-rss:mid
 
 # edge
 docker run --rm -P -p 3000:9090 --link tomcat:localhost --link middletier1:middletier1 qfdk/docker-rss:edge
