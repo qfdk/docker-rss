@@ -12,8 +12,10 @@ Tags Docker:
 
 ``` bash
 
-# Download tomcat 
-docker run --rm -p 80:80 --name tomcat --privileged=true qfdk/tomcat
+# Tomcat 
+docker run --rm -p 8080:80 --name tomcat --privileged=true qfdk/tomcat
+# OR
+docker run -v `pwd`:/usr/local/tomcat/webapps/ --name tomcat --privileged=true --rm qfdk/tomcat
 
 # Middletier
 docker run --rm -P -p 9191:9191 --link tomcat:localhost --name middletier1  --hostname middletier1  qfdk/docker-rss:mid
@@ -23,6 +25,15 @@ docker run --rm -P -p 9191:9191 --link tomcat:localhost --name middletier2  --ho
 docker run --rm -P -p 3000:9090 --link tomcat:localhost --link middletier1:middletier1 qfdk/docker-rss:edge
 docker run --rm -P -p 3001:9090 --link tomcat:localhost --link middletier2:middletier2 qfdk/docker-rss:edge
 
+## ELSE 
+
+docker run --rm -p 80:80 --name tomcat --privileged=true qfdk/tomcat
+
+docker run --rm --link tomcat:localhost --name middletier1  --hostname middletier1  qfdk/mid
+docker run --rm --link tomcat:localhost --name middletier2  --hostname middletier2  qfdk/mid
+
+docker run --rm -P -p 3000:9090 --link tomcat:localhost --link middletier1:middletier1 qfdk/edge
+docker run --rm -P -p 3001:9090 --link tomcat:localhost --link middletier2:middletier2 qfdk/edge
 
 ```
 

@@ -26,4 +26,4 @@ EXPOSE 9191 9192
 #start jar
 WORKDIR /recipes-rss
 
-CMD java -jar rss-middletier/build/libs/rss-middletier-*SNAPSHOT.jar
+CMD ["java","-jar","rss-middletier/build/libs/rss-middletier-0.1.0-SNAPSHOT.jar"]

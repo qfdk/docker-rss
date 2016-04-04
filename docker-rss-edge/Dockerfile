@@ -26,4 +26,4 @@ EXPOSE 9090 9092
 #start jar
 
 WORKDIR /recipes-rss
-CMD java -jar rss-edge/build/libs/rss-edge-*SNAPSHOT.jar
+CMD ["java","-jar","rss-edge/build/libs/rss-edge-0.1.0-SNAPSHOT.jar"]
