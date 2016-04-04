@@ -25,7 +25,13 @@ docker run --rm -P -p 9191:9191 --link tomcat:localhost --name middletier2  --ho
 docker run --rm -P -p 3000:9090 --link tomcat:localhost --link middletier1:middletier1 qfdk/docker-rss:edge
 docker run --rm -P -p 3001:9090 --link tomcat:localhost --link middletier2:middletier2 qfdk/docker-rss:edge
 
-## ELSE 
+## Build your images
+
+docker build -t qfdk/tomcat .
+docker build -t qfdk/mid .
+docker build -t qfdk/edge .
+
+## commandes 
 
 docker run --rm -p 80:80 --name tomcat --privileged=true qfdk/tomcat
 
@@ -67,6 +73,7 @@ Il faut utiliser `nginx` pour balancer.
 	}  
 ```
 
-## Todo :X
+### Todo
 
-- css
+- vérifier si ça marche bien.
+- écrire une script plus simple.
