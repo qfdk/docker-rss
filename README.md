@@ -1,7 +1,7 @@
-## RSS-eurake-mid-edge
+## RSS-eureka-mid-edge
 
 [![Author](https://img.shields.io/badge/author-@qfdk-blue.svg?style=flat)](http://qfdk.me/) 
-[![Platform](https://img.shields.io/badge/platform-Linux,%20BSD,%20OS%20X,%20Windows-green.svg?style=flat)](https://github.com/ideawu/ssdb) 
+[![Platform](https://img.shields.io/badge/platform-Linux,%20BSD,%20OS%20X,%20Windows-green.svg?style=flat)](https://qfdk.me) 
 [![License](https://img.shields.io/badge/license-New%20BSD-yellow.svg?style=flat)](LICENSE)
 
 
