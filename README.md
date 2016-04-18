@@ -1,57 +1,104 @@
-## RSS-mid-edge
+## RSS-eurake-mid-edge
 
-Deux images docker marchés :)
+[![Author](https://img.shields.io/badge/author-@qfdk-blue.svg?style=flat)](http://qfdk.me/) 
+[![Platform](https://img.shields.io/badge/platform-Linux,%20BSD,%20OS%20X,%20Windows-green.svg?style=flat)](https://github.com/ideawu/ssdb) 
+[![License](https://img.shields.io/badge/license-New%20BSD-yellow.svg?style=flat)](LICENSE)
 
-Tags Docker:
 
-- mid
-- edge
+Trois images docker marchés :)
 
-## Get start
 
+## Tags Docker:
+
+- docker pull qfdk/docker-rss:eureka
+- docker pull qfdk/docker-rss:mid
+- docker pull qfdk/docker-rss:edge
+
+## Dir
+```
+	.
+	├── README.md
+	├── docker-rss-edge
+	│   ├── Dockerfile
+	│   └── README.md
+	├── docker-rss-eureka
+	│   ├── Dockerfile
+	│   ├── README.md
+	│   ├── eureka.war
+	│   ├── server.xml
+	│   └── tomcat-users.xml
+	├── docker-rss-mid
+	│   ├── Dockerfile
+	│   └── README.md
+	├── monkey.sh
+	└── myInstances.sh
+	
+	3 directories, 12 files
+```
+
+## Plus simple (automatic)
+```bash
+git clone https://github.com/qfdk/docker-rss.git
+cd docker-rss
+## lancer stop remove 
+## modifier IP dans la script!!!
+./myInstances.sh [stop|remove]
+
+```
+
+## Get start (copier/coller)
 
 ``` bash
+echo "[info] Loading Eureka"
+docker run -d -p 8888:80 --name tomcat --privileged=true qfdk/docker-rss:eureka
 
-# Tomcat 
-docker run --rm -p 8080:80 --name tomcat --privileged=true qfdk/tomcat
-# OR
-docker run -v `pwd`:/usr/local/tomcat/webapps/ --name tomcat --privileged=true --rm qfdk/tomcat
+echo "[info] Loading Middletier"
+docker run -d --link tomcat:localhost --name middletier1  --hostname middletier1  qfdk/docker-rss:mid
+docker run -d -p 9191:9191 -p 9192:9192 --link tomcat:localhost --name middletier2  --hostname middletier2  qfdk/docker-rss:mid
 
-# Middletier
-docker run --rm -P -p 9191:9191 --link tomcat:localhost --name middletier1  --hostname middletier1  qfdk/docker-rss:mid
-docker run --rm -P -p 9191:9191 --link tomcat:localhost --name middletier2  --hostname middletier2  qfdk/docker-rss:mid
+echo "[info] Loading Edge"
+docker run -d -p 3000:9090 --name edge1 --link tomcat:localhost --link middletier1:middletier1 --link middletier2:middletier2 qfdk/docker-rss:edge
+docker run -d -p 3001:9090 --name edge2 --link tomcat:localhost --link middletier1:middletier1 --link middletier2:middletier2 qfdk/docker-rss:edge
+```
 
-# edge
-docker run --rm -P -p 3000:9090 --link tomcat:localhost --link middletier1:middletier1 qfdk/docker-rss:edge
-docker run --rm -P -p 3001:9090 --link tomcat:localhost --link middletier2:middletier2 qfdk/docker-rss:edge
-
+## OR build your own images
+``` bash
 ## Build your images
+cd docker-rss-eureka
+docker build -t qfdk/eureka .
 
-docker build -t qfdk/tomcat .
+cd docker-rss-mid 
 docker build -t qfdk/mid .
+
+cd docker-rss-edge
 docker build -t qfdk/edge .
 
-## commandes 
-
-docker run --rm -p 80:80 --name tomcat --privileged=true qfdk/tomcat
-
-docker run --rm --link tomcat:localhost --name middletier1  --hostname middletier1  qfdk/mid
-docker run --rm --link tomcat:localhost --name middletier2  --hostname middletier2  qfdk/mid
-
-docker run --rm -P -p 3000:9090 --link tomcat:localhost --link middletier1:middletier1 qfdk/edge
-docker run --rm -P -p 3001:9090 --link tomcat:localhost --link middletier2:middletier2 qfdk/edge
-
 ```
 
-## Balancer
+## Load Balancer avec NGINX
 
+Quelleque commande utile.
 
-Il faut utiliser `nginx` pour balancer.
+- Ubuntu
 
+```bash
+sudo apt-get update&&apt-get install nginx
+sudo vim /etc/nginx/sites_available/default
 ```
+- Mac OS 
+
+```bash
+brew install nginx
+vim /usr/local/etc/nginx/nginx.conf
+```
+
+### Fichier nginx.conf
+
+``` shell
 	upstream sample {  
 	  server 127.0.0.1:3000;  
 	  server 127.0.0.1:3001;  
+	  server 127.0.0.1:3002;
 	  keepalive 64;  
 	}  
 
@@ -71,13 +118,11 @@ Il faut utiliser `nginx` pour balancer.
 	    proxy_pass http://sample;  
 	    }  
 	}  
+	
 ```
 
-### Todo
 
-- vérifier si ça marche bien.
-- écrire une script plus simple.
+## License New BSD
 
-## License
 
 ![img-source-from-https://github.com/docker/dockercraft](https://github.com/docker/dockercraft/raw/master/docs/img/contribute.png?raw=true)
