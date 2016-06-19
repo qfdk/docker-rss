@@ -1,5 +1,8 @@
-# Docker-Tomcat [![Build Status](https://travis-ci.org/qfdk/docker-rss-tomcat.svg?branch=master)](https://travis-ci.org/qfdk/docker-rss-tomcat)
-
+# docker-rss-eureka 
+[![Author](https://img.shields.io/badge/author-@qfdk-blue.svg?style=flat)](http://qfdk.me/) 
+[![Build Status](https://travis-ci.org/qfdk/docker-rss-tomcat.svg?branch=master)](https://travis-ci.org/qfdk/docker-rss-tomcat)
+[![Platform](https://img.shields.io/badge/platform-Linux,%20BSD,%20OS%20X,%20Windows-green.svg?style=flat)](https://qfdk.me) 
+[![License](https://img.shields.io/badge/license-New%20BSD-yellow.svg?style=flat)](LICENSE)
 
 
 Tomcat use the port 80 and we can use the web-manager with user `qfdk`, password `qfdk`.
@@ -16,11 +19,11 @@ Tomcat use the port 80 and we can use the web-manager with user `qfdk`, password
 
 ```bash
 # clone project
-git clone https://github.com/qfdk/docker-rss-tomcat && cd docker-rss-tomcat
+git clone https://github.com/qfdk/docker-rss&& cd docker-rss-eureka
 # build image
-docker build -t qfdk/tomcat .
+docker build -t qfdk/eureka .
 # run your image
-docker run -it --rm -p 80:80 qfdk/tomcat
+docker run -it --rm -p 80:80 qfdk/eureka
 ```
 
 Now, you have a Tomcat server uses port 80 and you can upload `*.war` with web-manager via *http://192.168.99.100* 
